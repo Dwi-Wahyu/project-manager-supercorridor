@@ -1,5 +1,1 @@
-- truncate tabel attendance karena type clock time sudah diubah jadi date time
-
-- truncate tabel ValidQrCode
-
-- tambahkan rejected reason di permission
+seed dlu semua data mitra dan project dari excel supaya gampang visualisasi

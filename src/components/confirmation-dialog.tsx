@@ -40,7 +40,7 @@ export function ConfirmationDialog({
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent className="sm:max-w-[425px] bg-card text-card-foreground border-border">
         <AlertDialogHeader className="flex flex-col items-center text-center">
-          <AlertCircle className="h-8 w-8 text-secondary" />{" "}
+          <AlertCircle className="h-8 w-8 text-muted-foreground" />{" "}
           {/* Ikon peringatan */}
           <AlertDialogTitle className="text-xl font-bold mt-2">
             {title}

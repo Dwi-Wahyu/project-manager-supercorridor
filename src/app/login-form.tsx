@@ -24,7 +24,6 @@ import { PasswordInput } from "@/components/password-input";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { getEmployeeByUsernameAction } from "./admin/karyawan/actions";
 
 export default function LoginForm({
   className,
@@ -62,13 +61,7 @@ export default function LoginForm({
     } else {
       toast.success("Login Sukses");
 
-      const employeeAccount = await getEmployeeByUsernameAction(data.username);
-
-      if (employeeAccount) {
-        router.push("/home");
-      } else {
-        router.push("/admin");
-      }
+      router.push("/admin");
     }
 
     setLoading(false);
@@ -76,20 +69,11 @@ export default function LoginForm({
 
   return (
     <div
-      className={cn(
-        "flex flex-col md:flex-row p-6 md:p-10 items-center min-h-screen md:justify-evenly gap-9 relative",
-        className
-      )}
+      className={
+        "flex flex-col items-center justify-center w-full h-full bg-black/50"
+      }
       {...props}
     >
-      <Image
-        src="/login-logo.svg"
-        alt="Image"
-        className="md:scale-200"
-        width={190}
-        height={190}
-      />
-
       <Card className="min-w-sm">
         <CardContent>
           <Form {...form}>
@@ -98,7 +82,7 @@ export default function LoginForm({
                 <div className="flex flex-col items-center text-center">
                   <h1 className="text-2xl font-bold">Selamat Datang</h1>
                   <p className="text-muted-foreground text-balance">
-                    Aplikasi Presensi Digital
+                    Project Manager
                   </p>
                 </div>
                 <FormField
@@ -163,12 +147,6 @@ export default function LoginForm({
           </Form>
         </CardContent>
       </Card>
-
-      <div className="w-full flex md:hidden justify-center">
-        <h1 className="text-center text-muted-foreground text-xs">
-          Copyright @ PT SkytelIndo 2025
-        </h1>
-      </div>
     </div>
   );
 }

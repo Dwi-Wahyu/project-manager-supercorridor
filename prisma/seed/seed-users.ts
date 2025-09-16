@@ -34,8 +34,8 @@ export async function seedUsers() {
     const usersToSeed = [];
 
     usersToSeed.push({
-      name: "Ahmad Kurniawan",
-      username: "awan",
+      name: "Administrator",
+      username: "admin",
       password: hashedPasswordAdmin,
       role: Role.admin,
       avatar: DEFAULT_AVATAR,
@@ -45,7 +45,7 @@ export async function seedUsers() {
       name: "Dwi Wahyu Ilahi",
       username: "wahyu",
       password: hashedPasswordAdmin,
-      role: Role.employee,
+      role: Role.workers,
       avatar: DEFAULT_AVATAR,
     });
 

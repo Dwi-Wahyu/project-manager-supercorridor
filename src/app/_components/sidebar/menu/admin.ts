@@ -1,11 +1,11 @@
 import {
-  IconClipboardData,
-  IconQrcode,
-  IconSettings,
-  IconUsers,
+  IconBuildingWarehouse,
+  IconHeartHandshake,
+  IconUserScreen,
+  IconUsersGroup,
 } from "@tabler/icons-react";
 
-import { LayoutDashboard, Mails } from "lucide-react";
+import { Contact, HouseWifi, LayoutDashboard, Waypoints } from "lucide-react";
 
 export const adminMenu = {
   navMain: [
@@ -15,29 +15,59 @@ export const adminMenu = {
       icon: LayoutDashboard,
     },
     {
-      title: "Data Karyawan",
-      url: "/admin/karyawan",
-      icon: IconUsers,
+      title: "FTTH",
+      url: "/admin/projects/ftth",
+      icon: HouseWifi,
+      child: [
+        {
+          title: "Summary",
+          url: "/admin/projects/ftth/summary",
+        },
+        {
+          title: "Detailed",
+          url: "/admin/projects/ftth",
+        },
+      ],
     },
     {
-      title: "Data Kehadiran",
-      url: "/admin/kehadiran",
-      icon: IconClipboardData,
+      title: "Backbone",
+      url: "/admin/projects/backbone",
+      icon: Waypoints,
+      child: [
+        {
+          title: "Summary",
+          url: "/admin/projects/backbone/summary",
+        },
+        {
+          title: "Detailed",
+          url: "/admin/projects/backbone",
+        },
+      ],
     },
     {
-      title: "Pengajuan Izin",
-      url: "/admin/pengajuan-izin",
-      icon: Mails,
+      title: "Client",
+      url: "/admin/clients",
+      icon: IconHeartHandshake,
     },
     {
-      title: "QR Code",
-      url: "/admin/qrcode",
-      icon: IconQrcode,
+      title: "Material",
+      url: "/admin/materials",
+      icon: IconBuildingWarehouse,
     },
     {
-      title: "Pengaturan",
-      url: "/admin/pengaturan",
-      icon: IconSettings,
+      title: "Users",
+      url: "/admin/users",
+      icon: IconUsersGroup,
+      child: [
+        {
+          title: "Admin",
+          url: "/admin/users/admin",
+        },
+        {
+          title: "Pekerja Lapangan",
+          url: "/admin/users/pekerja-lapangan",
+        },
+      ],
     },
   ],
 };

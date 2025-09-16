@@ -1,6 +1,5 @@
 "use client";
 
-import { NavPenilaian } from "@/app/_components/sidebar/nav-penilaian";
 import { NavMain } from "@/app/_components/sidebar/nav-main";
 import {
   Sidebar,
@@ -11,15 +10,11 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import Image from "next/image";
 import { Scroller } from "../../../components/ui/scroller";
 import { getSidebarMenu } from "./menu";
 import { useSession } from "next-auth/react";
 import { useRouter } from "nextjs-toploader/app";
-import { NavSetting } from "./nav-setting";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useTheme } from "next-themes";
-import { Scan, ScanQrCode } from "lucide-react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { open } = useSidebar();
@@ -46,19 +41,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem className="p-2 pb-0 flex items-center justify-between">
             {open ? (
               <div className="flex gap-2 items-center">
-                <ScanQrCode width={40} height={40} />
+                <img src="/supercoridor.png" width={40} height={40} alt="" />
 
                 <div>
                   <h1 className="text-xl font-bold leading-tight">
-                    Presensi Digital
+                    Project Manager
                   </h1>
                   <h1 className="text-sm text-muted-foreground leading-tight">
-                    PT Skytel Indo
+                    PT SUPERCORRIDOR
                   </h1>
                 </div>
               </div>
             ) : (
-              <ScanQrCode width={40} height={40} />
+              <img src="/supercoridor.png" width={40} height={40} alt="" />
             )}
           </SidebarMenuItem>
         </SidebarMenu>
@@ -85,14 +80,15 @@ function LoadingSidebarMenu({
         <SidebarMenu>
           <SidebarMenuItem className="p-2 pb-0 flex items-center justify-between">
             <div className="flex gap-2 items-center">
-              <ScanQrCode width={40} height={40} />
+              {/* <FolderOpenDot width={40} height={40} /> */}
+              <img src="/supercoridor.png" width={40} height={40} alt="" />
 
               <div>
                 <h1 className="text-xl font-bold leading-tight">
-                  Presensi Digital
+                  Project Manager
                 </h1>
                 <h1 className="text-sm text-muted-foreground leading-tight">
-                  PT Skytel Indo
+                  PT SUPERCORRIDOR
                 </h1>
               </div>
             </div>

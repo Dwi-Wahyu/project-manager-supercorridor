@@ -12,10 +12,5 @@ export default async function Layout({
   if (!session) {
     redirect("/");
   }
-
-  if (session.user.role === "employee") {
-    redirect("/home");
-  }
-
   return <ClientAdminLayout>{children}</ClientAdminLayout>;
 }

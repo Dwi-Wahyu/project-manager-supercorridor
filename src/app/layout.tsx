@@ -12,8 +12,8 @@ const figtree = Figtree({
 });
 
 export const metadata: Metadata = {
-  title: "Absensi Digital",
-  description: "Berbasis QR Code",
+  title: "Project Manager",
+  description: "PT Trans Indonesia Superkoridor",
   creator: "PT Skytel Indo",
 };
 

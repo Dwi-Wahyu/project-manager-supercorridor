@@ -8,14 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model AppSettings {
-  id    Int    @id @default(autoincrement())
-  key   String @unique
-  value String
-
-  @@map("app_settings")
-}
-
 model User {
   id         String    @id @default(uuid())
   created_at DateTime  @default(now())
@@ -27,111 +19,114 @@ model User {
   password   String
   avatar     String?
   last_login DateTime?
+  phone_number String?
+  email String?
   role       Role
 
-  phone_number String?
-  email        String?
-
-  attendances Attendance[]
-  permission  Permission[]
-
-  received_notifications Notification[] @relation("ReceivedNotifications")
-  sent_notifications     Notification[] @relation("SentNotifications")
+  tasks_created   Task[] @relation("CreatedBy")
+  tasks_updated   Task[] @relation("UpdatedBy")
+  tasks_in_charge Task[] @relation("TaskInCharge")
 
   @@map("user")
 }
 
-model Notification {
-  id         Int      @id @default(autoincrement())
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+model Task {
+  id         Int        @id @default(autoincrement())
+  project    Project    @relation(onDelete: Cascade, fields: [project_id], references: [id])
+  project_id String
 
-  resource_path String?
+  name String
+  lop String?
+  port String?
+  status     TaskStatus @default(progress)
+  priority   TaskPriority
 
-  title   String
-  message String  @db.Text
-  read    Boolean @default(false)
+  notes String? @db.Text
 
-  recipient_id String
-  recipient    User   @relation(name: "ReceivedNotifications", fields: [recipient_id], references: [id])
-
-  sender_id String?
-  sender    User?   @relation(name: "SentNotifications", fields: [sender_id], references: [id])
-
-  @@index([recipient_id])
-  @@index([sender_id])
-  @@map("notification")
-}
-
-model Attendance {
-  id Int @id @default(autoincrement())
-
-  date DateTime @default(now())
-
-  clock_in_at  DateTime?
-  clock_out_at DateTime?
-
-  user    User   @relation(fields: [user_id], references: [id])
-  user_id String
-
-  overtime_hours Float?
-
-  status AttendanceStatus
-
-  @@unique([date, user_id])
-  @@map("attendance")
-}
-
-enum AttendanceStatus {
-  ATTEND
-  ABSENT
-  EXCUSED
-
-  @@map("attendance_status")
-}
-
-model Permission {
-  id         Int       @id @default(autoincrement())
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
   deleted_at DateTime?
 
-  reason     String
-  days_count Int
-  proof      String?
-  status     PermissionStatus @default(PENDING)
-  type       PermissionType
+  created_by_user   User? @relation("CreatedBy", fields: [created_by_user_id], references: [id])
+  created_by_user_id String?
 
-  rejected_reason String?
+  updated_by_user   User? @relation("UpdatedBy", fields: [updated_by_user_id], references: [id])
+  updated_by_user_id String?
 
-  user    User   @relation(fields: [user_id], references: [id])
-  user_id String
-
-  date_start DateTime
-  date_end   DateTime
-
-  @@map("permission")
+  users_in_charge User[] @relation("TaskInCharge")
 }
 
-enum PermissionStatus {
-  PENDING
-  APPROVED
-  REJECTED
+model Project {
+  id String @id @default(uuid())
+  
+  regional String?
+  pop String?
+  project_number String?
+  name String
+  bep String?
+  spk_number String?
+  investment_value String?
+  toc String?
+  mos String?
+  status String?
+  rfs_date String?
 
-  @@map("permission_status")
+  home_pass String?
+  home_port Int?
+  home_connected Int?
+  remaining Int?
+  occ Int?
+  revenue String?
+  year String?
+
+  done Boolean @default(false)
+
+  task Task[]
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+
+  category ProjectCategory
+
+  client Client? @relation(fields: [client_id], references: [id])
+  client_id String?
 }
 
-enum PermissionType {
-  FULL
-  EARLY_LEAVE
-  LATE
+model Client {
+  id String @id @default(uuid())
+  name String
+  projects Project[]
+}
 
-  @@map("permission_type")
+enum ProjectCategory {
+  ftth
+  backbone
+}
+
+model Material {
+  id Int @id @default(autoincrement())
+  name String
+  quantity String
+}
+
+enum TaskPriority {
+  critical
+  high
+  medium
+  low
+
+  @@map("task_urgency")
+}
+
+enum TaskStatus {
+  done
+  progress
+  stuck
+  survey
 }
 
 enum Role {
   admin
-  employee
+  workers
 
   @@map("role")
 }

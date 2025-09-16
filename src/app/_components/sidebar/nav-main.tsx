@@ -71,9 +71,7 @@ export function NavMain({
                   </CollapsibleTrigger>
 
                   <CollapsibleContent>
-                    <SidebarMenuSub
-                      className="relative ml-4 pl-4 border-l border-muted" // vertical line
-                    >
+                    <SidebarMenuSub className="relative ml-4 pl-4 border-l border-muted-foreground">
                       {item.child.map((subitem) => (
                         <SidebarMenuSubItem key={subitem.url}>
                           <SidebarMenuButton

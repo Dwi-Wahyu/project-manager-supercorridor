@@ -1,12 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import { seedUsers } from "./seed-users";
-import { seedSettings } from "./seed-settings";
-import { seedAttendance } from "./seed-attendance";
+import { seedClients } from "./seed-client";
 
 async function main() {
   await seedUsers();
-  await seedSettings();
-  await seedAttendance();
+  await seedClients();
 }
 
 main()

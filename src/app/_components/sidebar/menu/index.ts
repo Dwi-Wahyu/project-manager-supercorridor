@@ -1,10 +1,10 @@
 import { adminMenu } from "./admin";
-import { employeeMenu } from "./employee";
+import { workersMenu } from "./workers";
 
 export function getSidebarMenu(role: string) {
   switch (role) {
-    case "employee":
-      return employeeMenu;
+    case "workers":
+      return workersMenu;
     case "admin":
       return adminMenu;
     default:
