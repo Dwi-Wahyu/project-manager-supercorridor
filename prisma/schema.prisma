@@ -54,6 +54,8 @@ model Task {
   updated_by_user_id String?
 
   users_in_charge User[] @relation("TaskInCharge")
+
+  @@map("task")
 }
 
 model Project {
@@ -89,12 +91,16 @@ model Project {
 
   client Client? @relation(fields: [client_id], references: [id])
   client_id String?
+
+  @@map("project")
 }
 
 model Client {
   id String @id @default(uuid())
   name String
   projects Project[]
+
+  @@map("client")
 }
 
 enum ProjectCategory {
@@ -106,6 +112,8 @@ model Material {
   id Int @id @default(autoincrement())
   name String
   quantity String
+
+  @@map("material")
 }
 
 enum TaskPriority {
@@ -113,8 +121,6 @@ enum TaskPriority {
   high
   medium
   low
-
-  @@map("task_urgency")
 }
 
 enum TaskStatus {
@@ -127,6 +133,4 @@ enum TaskStatus {
 enum Role {
   admin
   workers
-
-  @@map("role")
 }
