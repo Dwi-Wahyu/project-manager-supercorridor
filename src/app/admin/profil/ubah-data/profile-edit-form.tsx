@@ -61,7 +61,7 @@ export function ProfileEditForm({ initialData }: UserEditFormProps) {
 
     if (result.success) {
       toast.success("Profil Berhasil Diperbarui");
-      router.push("/profil");
+      router.push("/admin/profil");
     } else {
       toast.error(result.error.message);
     }
