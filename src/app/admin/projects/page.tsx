@@ -10,6 +10,7 @@ import { getProjectData } from "./queries";
 import { TabelProject } from "./tabel-project";
 import { FolderOpenDot } from "lucide-react";
 import { ProjectSearchParams } from "@/validations/search-params/project-search-params";
+import { getRegionals } from "../pengaturan-aplikasi/queries";
 
 interface IndexPageProps {
   searchParams: Promise<SearchParams>;
@@ -29,6 +30,8 @@ export default async function ProjectsPage(props: IndexPageProps) {
 
   const isAdmin = (await session.user.role) === "admin";
 
+  const regionals = await getRegionals();
+
   return (
     <Card>
       <CardContent>
@@ -41,7 +44,11 @@ export default async function ProjectsPage(props: IndexPageProps) {
           </div>
         </div>
         <Suspense fallback={<DataTableSkeleton columnCount={3} />}>
-          <TabelProject promises={promises} isAdmin={isAdmin} />
+          <TabelProject
+            promises={promises}
+            isAdmin={isAdmin}
+            regionals={regionals}
+          />
         </Suspense>
       </CardContent>
     </Card>

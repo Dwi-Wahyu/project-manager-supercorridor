@@ -9,6 +9,7 @@ import UnauthorizedPage from "@/app/_components/unauthorized-page";
 import { ProjectSearchParams } from "@/validations/search-params/project-search-params";
 import { getProjectData } from "../queries";
 import { TabelProject } from "../tabel-project";
+import { getRegionals } from "../../pengaturan-aplikasi/queries";
 
 interface IndexPageProps {
   searchParams: Promise<SearchParams>;
@@ -33,6 +34,8 @@ export default async function FtthProjectsPage(props: IndexPageProps) {
 
   const isAdmin = (await session.user.role) === "admin";
 
+  const regionals = await getRegionals();
+
   return (
     <div>
       <Card className="border-t-2 mb-5 border-primary">
@@ -44,7 +47,11 @@ export default async function FtthProjectsPage(props: IndexPageProps) {
       <Card>
         <CardContent>
           <Suspense fallback={<DataTableSkeleton columnCount={7} />}>
-            <TabelProject promises={promises} isAdmin={isAdmin} />
+            <TabelProject
+              promises={promises}
+              isAdmin={isAdmin}
+              regionals={regionals}
+            />
           </Suspense>
         </CardContent>
       </Card>

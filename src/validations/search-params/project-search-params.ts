@@ -10,6 +10,7 @@ export const ProjectSearchParams = createSearchParamsCache({
   name: parseAsString.withDefault(""),
   category: parseAsString.withDefault(""),
   year: parseAsString.withDefault(""),
+  regional: parseAsString.withDefault(""),
 });
 
 export type ProjectSearchParamsType = {
@@ -18,6 +19,7 @@ export type ProjectSearchParamsType = {
   name: string;
   category: string;
   year: string;
+  regional: string;
 };
 
 export const ProjectProgressSearchParams = createSearchParamsCache({

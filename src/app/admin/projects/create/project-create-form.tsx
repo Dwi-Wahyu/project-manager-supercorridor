@@ -504,11 +504,9 @@ export function CreateProjectForm({
               </div>
 
               <div className="flex justify-end gap-2 mt-6">
-                <Button variant={"secondary"} asChild>
-                  <Link href="/admin/projects">
-                    <IconChevronLeft />
-                    Kembali
-                  </Link>
+                <Button variant={"outline"} onClick={() => router.back()}>
+                  <IconChevronLeft />
+                  Kembali
                 </Button>
 
                 <Button type="submit" disabled={isLoading}>

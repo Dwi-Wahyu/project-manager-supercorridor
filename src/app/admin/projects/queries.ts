@@ -26,6 +26,10 @@ export async function getProjectData(input: ProjectSearchParamsType) {
     whereClause["year"] = input.year;
   }
 
+  if (input.regional) {
+    whereClause["regional_id"] = input.regional;
+  }
+
   const filtered = await prisma.project.count({
     where: whereClause,
   });

@@ -61,7 +61,7 @@ export const TabelProjectColumns: ColumnDef<ProjectColumnType>[] = [
   },
   {
     accessorKey: "name",
-    header: "Nama",
+    header: "Nama Project",
   },
   {
     accessorKey: "home_port",
