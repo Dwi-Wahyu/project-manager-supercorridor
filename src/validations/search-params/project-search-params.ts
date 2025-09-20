@@ -27,6 +27,7 @@ export const ProjectProgressSearchParams = createSearchParamsCache({
   project_id: parseAsString.withDefault(""),
   status: parseAsString.withDefault(""),
   priority: parseAsString.withDefault(""),
+  worker_id: parseAsString.withDefault(""),
 });
 
 export type ProjectProgressSearchParamsType = {
@@ -36,4 +37,5 @@ export type ProjectProgressSearchParamsType = {
   project_id: string;
   status: string;
   priority: string;
+  worker_id: string;
 };

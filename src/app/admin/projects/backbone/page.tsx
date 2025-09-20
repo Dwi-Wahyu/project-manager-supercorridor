@@ -1,5 +1,53 @@
-import UnderConstructionPage from "@/app/_components/under-construction";
+import { PageTitle } from "@/app/_components/page-title";
+import { Card, CardContent } from "@/components/ui/card";
+import { Suspense } from "react";
+import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
+import { SearchParams } from "nuqs";
+import { auth } from "@/config/auth";
+import UnauthorizedPage from "@/app/_components/unauthorized-page";
 
-export default async function BackboneProjectsPage() {
-  return <UnderConstructionPage />;
+import { ProjectSearchParams } from "@/validations/search-params/project-search-params";
+import { getProjectData } from "../queries";
+import { TabelProject } from "../tabel-project";
+
+interface IndexPageProps {
+  searchParams: Promise<SearchParams>;
+}
+
+export default async function BackboneProjectsPage(props: IndexPageProps) {
+  const searchParams = await props.searchParams;
+  const search = ProjectSearchParams.parse(searchParams);
+
+  const session = await auth();
+
+  if (!session) {
+    return <UnauthorizedPage />;
+  }
+
+  let updatedSearch = {
+    ...search,
+    category: "backbone",
+  };
+
+  const promises = await getProjectData(updatedSearch);
+
+  const isAdmin = (await session.user.role) === "admin";
+
+  return (
+    <div>
+      <Card className="border-t-2 mb-5 border-primary">
+        <CardContent className="text-center">
+          <PageTitle title="BACKBONE" />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent>
+          <Suspense fallback={<DataTableSkeleton columnCount={7} />}>
+            <TabelProject promises={promises} isAdmin={isAdmin} />
+          </Suspense>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }

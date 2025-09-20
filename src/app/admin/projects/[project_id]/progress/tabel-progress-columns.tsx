@@ -26,10 +26,20 @@ export const TabelProjectProgressColumns: ColumnDef<ProjectProgressColumnType>[]
     {
       accessorKey: "port",
       header: "Port",
+      cell: function Cell({ row }) {
+        const { port } = row.original;
+
+        return port ?? "-";
+      },
     },
     {
       accessorKey: "priority",
       header: "Prioritas",
+      cell: function Cell({ row }) {
+        const { priority } = row.original;
+
+        return priority ?? "-";
+      },
     },
     {
       accessorKey: "updated_at",
@@ -44,16 +54,7 @@ export const TabelProjectProgressColumns: ColumnDef<ProjectProgressColumnType>[]
       cell: function Cell({ row }) {
         const { status } = row.original;
 
-        switch (status) {
-          case "progress":
-            return <Badge>{status}</Badge>;
-          case "done":
-            return <Badge variant={"success"}>{status}</Badge>;
-          case "stuck":
-            return <Badge variant={"destructive"}>{status}</Badge>;
-          case "survey":
-            return <Badge variant={"secondary"}>{status}</Badge>;
-        }
+        return status?.label ?? "-";
       },
     },
     {
@@ -126,7 +127,6 @@ export const TabelProjectProgressColumns: ColumnDef<ProjectProgressColumnType>[]
               confirmButtonText={isDeleting ? "Menghapus..." : "Hapus"}
               cancelButtonText="Batal"
               isLoading={isDeleting}
-              confirmButtonVariant="destructive"
             />
           </div>
         );

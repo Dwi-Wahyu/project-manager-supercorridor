@@ -1,6 +1,5 @@
 "use client";
 
-import { NavMain } from "@/app/_components/sidebar/nav-main";
 import {
   Sidebar,
   SidebarContent,
@@ -15,6 +14,8 @@ import { getSidebarMenu } from "./menu";
 import { useSession } from "next-auth/react";
 import { useRouter } from "nextjs-toploader/app";
 import { Skeleton } from "@/components/ui/skeleton";
+import { NavMenu } from "./nav-menu";
+import SidebarUserDetail from "./user-detail";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { open } = useSidebar();
@@ -35,36 +36,41 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const menu = getSidebarMenu(data.user.role);
 
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" variant="floating" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem className="p-2 pb-0 flex items-center justify-between">
             {open ? (
               <div className="flex gap-2 items-center">
-                <img src="/supercoridor.png" width={40} height={40} alt="" />
-
                 <div>
-                  <h1 className="text-xl font-bold leading-tight">
-                    Project Manager
-                  </h1>
-                  <h1 className="text-sm text-muted-foreground leading-tight">
-                    PT SUPERCORRIDOR
+                  <h1 className="text-lg font-bold">PROJECT MANAGEMENT</h1>
+                  <h1 className="text-xs text-muted-foreground">
+                    PT TRANS INDONESIA SUPERKORIDOR
                   </h1>
                 </div>
               </div>
             ) : (
-              <img src="/supercoridor.png" width={40} height={40} alt="" />
+              // <img src="/supercoridor.png" width={40} height={40} alt="" />
+              <div></div>
             )}
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent className="pb-10 pt-4">
+      <SidebarContent className="pb-10">
         <Scroller orientation={"vertical"} hideScrollbar>
-          <NavMain items={menu.navMain} />
+          <NavMenu items={menu.navMain} groupLabel="UTAMA" />
 
-          <div className="md:flex hidden  w-full justify-center">
-            <SidebarTrigger />
-          </div>
+          {menu.navProject.length !== 0 && (
+            <NavMenu items={menu.navProject} groupLabel="PROJECT" />
+          )}
+
+          {menu.navUser.length !== 0 && (
+            <NavMenu items={menu.navUser} groupLabel="USER" />
+          )}
+
+          {menu.navSetting.length !== 0 && (
+            <NavMenu items={menu.navSetting} groupLabel="PENGATURAN" />
+          )}
         </Scroller>
       </SidebarContent>
     </Sidebar>
@@ -75,27 +81,22 @@ function LoadingSidebarMenu({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" variant="floating" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem className="p-2 pb-0 flex items-center justify-between">
             <div className="flex gap-2 items-center">
-              {/* <FolderOpenDot width={40} height={40} /> */}
-              <img src="/supercoridor.png" width={40} height={40} alt="" />
-
               <div>
-                <h1 className="text-xl font-bold leading-tight">
-                  Project Manager
-                </h1>
-                <h1 className="text-sm text-muted-foreground leading-tight">
-                  PT SUPERCORRIDOR
+                <h1 className="text-lg font-bold">PROJECT MANAGEMENT</h1>
+                <h1 className="text-xs text-muted-foreground">
+                  PT TRANS INDONESIA SUPERKORIDOR
                 </h1>
               </div>
             </div>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent className="pb-10 pt-4 px-4">
+      <SidebarContent className="px-4 pt-6">
         <SidebarSkeleton />
       </SidebarContent>
     </Sidebar>
@@ -122,10 +123,6 @@ function SidebarSkeleton() {
         <Skeleton className="w-28 h-5 bg-sidebar-foreground" />
         <Skeleton className="w-36 h-5 bg-sidebar-foreground" />
         <Skeleton className="w-32 h-5 bg-sidebar-foreground" />
-      </div>
-
-      <div className="flex justify-center mt-2">
-        <Skeleton className="w-8 h-8 bg-sidebar-foreground" />
       </div>
     </div>
   );

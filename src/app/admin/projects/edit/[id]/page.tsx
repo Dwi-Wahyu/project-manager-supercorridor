@@ -4,6 +4,7 @@ import { auth } from "@/config/auth";
 import { EditProjectForm } from "./project-edit-form";
 import { getProjectById } from "../../queries";
 import NotFoundResource from "@/app/_components/not-found-resource";
+import { getRegionals } from "@/app/admin/pengaturan-aplikasi/queries";
 
 export default async function ProjectEditPage({
   params,
@@ -22,15 +23,20 @@ export default async function ProjectEditPage({
     return <UnauthorizedPage />;
   }
 
-  const allClient = await getAllClient();
-
   const initialData = await getProjectById(id);
 
   if (!initialData) {
     return <NotFoundResource />;
   }
 
-  console.log(initialData.client_id);
+  const allClient = await getAllClient();
+  const regionals = await getRegionals();
 
-  return <EditProjectForm allClient={allClient} initialData={initialData} />;
+  return (
+    <EditProjectForm
+      allClient={allClient}
+      regionals={regionals}
+      initialData={initialData}
+    />
+  );
 }

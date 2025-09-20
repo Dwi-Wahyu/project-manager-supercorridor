@@ -4,13 +4,22 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ProjectColumnType } from "./tabel-project";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Eye, SquarePen, Trash } from "lucide-react";
+import { Ellipsis, Eye, MoreHorizontal, SquarePen, Trash } from "lucide-react";
 import { ConfirmationDialog } from "@/components/confirmation-dialog";
 import { toast } from "sonner";
 import { useState } from "react";
-import { IconCategoryPlus, IconClockCog } from "@tabler/icons-react";
+import { IconClockCog } from "@tabler/icons-react";
 import { deleteProject } from "./actions";
 import { useSession } from "next-auth/react";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const TabelProjectColumns: ColumnDef<ProjectColumnType>[] = [
   {
@@ -20,14 +29,35 @@ export const TabelProjectColumns: ColumnDef<ProjectColumnType>[] = [
   {
     accessorKey: "regional",
     header: "Regional",
+    cell: function Cell({ row }) {
+      return row.original.regional.name;
+    },
   },
   {
     accessorKey: "project_number",
     header: "No. Project",
+    cell: function Cell({ row }) {
+      const { project_number } = row.original;
+
+      if (project_number) {
+        return <div>{project_number}</div>;
+      }
+
+      return <div>-</div>;
+    },
   },
   {
     accessorKey: "pop",
     header: "POP",
+    cell: function Cell({ row }) {
+      const { pop } = row.original;
+
+      if (pop) {
+        return <div>{pop}</div>;
+      }
+
+      return <div>-</div>;
+    },
   },
   {
     accessorKey: "name",
@@ -36,9 +66,18 @@ export const TabelProjectColumns: ColumnDef<ProjectColumnType>[] = [
   {
     accessorKey: "home_port",
     header: "PORT",
+    cell: function Cell({ row }) {
+      const { home_port } = row.original;
+
+      if (home_port) {
+        return <div>{home_port}</div>;
+      }
+
+      return <div>-</div>;
+    },
   },
   {
-    header: "PORT",
+    header: "Client",
     cell: function Cell({ row }) {
       const { client } = row.original;
 
@@ -52,6 +91,15 @@ export const TabelProjectColumns: ColumnDef<ProjectColumnType>[] = [
   {
     accessorKey: "status",
     header: "Status",
+    cell: function Cell({ row }) {
+      const { status } = row.original;
+
+      if (status) {
+        return <div>{status}</div>;
+      }
+
+      return <div>-</div>;
+    },
   },
   {
     id: "actions",
@@ -89,29 +137,47 @@ export const TabelProjectColumns: ColumnDef<ProjectColumnType>[] = [
       };
 
       return (
-        <div className="flex gap-2">
-          {isAdmin && (
-            <Button size={"icon"} variant={"outline"} asChild>
-              <Link href={`/admin/projects/edit/${project.id}`}>
-                <SquarePen className="" />
-              </Link>
-            </Button>
-          )}
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant={"ghost"} className="w-8 h-8 p-0">
+                <span className="sr-only">Open Menu</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link href={`/admin/projects/${project.id}/progress`}>
+                  <IconClockCog className="" />
+                  Lihat Progress
+                </Link>
+              </DropdownMenuItem>
+              {isAdmin && (
+                <DropdownMenuItem asChild>
+                  <Link href={`/admin/projects/edit/${project.id}`}>
+                    <SquarePen className="" />
+                    Edit Project
+                  </Link>
+                </DropdownMenuItem>
+              )}
+              <DropdownMenuItem asChild>
+                <Link href={`/admin/projects/${project.id}/progress`}>
+                  <Eye className="" />
+                  Lihat Detail
+                </Link>
+              </DropdownMenuItem>
 
-          <Button size={"icon"} variant={"outline"} asChild>
-            <Link href={`/admin/projects/${project.id}/progress`}>
-              <IconClockCog className="" />
-            </Link>
-          </Button>
-          {isAdmin && (
-            <Button
-              size={"icon"}
-              variant={"outline"}
-              onClick={() => setIsConfirmDialogOpen(true)}
-            >
-              <Trash className="" />
-            </Button>
-          )}
+              {isAdmin && (
+                <DropdownMenuItem
+                  variant="destructive"
+                  onClick={() => setIsConfirmDialogOpen(true)}
+                >
+                  <Trash className="" />
+                  Hapus
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           <ConfirmationDialog
             isOpen={isConfirmDialogOpen}
@@ -122,9 +188,8 @@ export const TabelProjectColumns: ColumnDef<ProjectColumnType>[] = [
             confirmButtonText={isDeleting ? "Menghapus..." : "Hapus"}
             cancelButtonText="Batal"
             isLoading={isDeleting}
-            confirmButtonVariant="destructive"
           />
-        </div>
+        </>
       );
     },
     size: 5,

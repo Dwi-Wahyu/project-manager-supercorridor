@@ -1,16 +1,8 @@
 import NotFoundResource from "@/app/_components/not-found-resource";
 import { getTaskById } from "../queries";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { IconChevronLeft, IconUser } from "@tabler/icons-react";
-import Link from "next/link";
+import { IconUser } from "@tabler/icons-react";
 import { NavigationButton } from "@/app/_components/navigation-button";
 import { Edit } from "lucide-react";
 
@@ -46,19 +38,19 @@ export default async function DetailTaskPage({
             <h2 className="text-lg font-semibold">Informasi Dasar</h2>
             <p>
               <strong className="block text-sm text-muted-foreground">
-                Nama Task:
+                Nama Task
               </strong>
               {initialData.name}
             </p>
             <p>
               <strong className="block text-sm text-muted-foreground">
-                LOP:
+                LOP
               </strong>
               {initialData.lop || "-"}
             </p>
             <p>
               <strong className="block text-sm text-muted-foreground">
-                Port:
+                Port
               </strong>
               {initialData.port || "-"}
             </p>
@@ -67,12 +59,12 @@ export default async function DetailTaskPage({
           <div className="space-y-2">
             <h2 className="text-lg font-semibold">Status & Prioritas</h2>
             <p className="flex items-center gap-2">
-              <strong className="text-sm text-muted-foreground">Status:</strong>
-              <Badge>{initialData.status}</Badge>
+              <strong className="text-sm text-muted-foreground">Status</strong>
+              <Badge>{initialData.status?.label ?? "-"}</Badge>
             </p>
             <p className="flex items-center gap-2">
               <strong className="text-sm text-muted-foreground">
-                Prioritas:
+                Prioritas
               </strong>
               <Badge variant="outline">{initialData.priority}</Badge>
             </p>

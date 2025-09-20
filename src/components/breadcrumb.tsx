@@ -13,6 +13,7 @@ import { usePathname } from "next/navigation";
 import { ActivitySquare, Home, University } from "lucide-react";
 import {
   IconClipboardText,
+  IconDashboard,
   IconMilitaryAward,
   IconTreadmill,
   IconUserScreen,
@@ -20,6 +21,7 @@ import {
 import { IconType } from "@/types/icon";
 import IconPistol from "./icons/pistol";
 import IconSenapan from "./icons/senapan";
+import Link from "next/link";
 
 type IconMapping = {
   label: string;
@@ -27,13 +29,10 @@ type IconMapping = {
 }[];
 
 const iconMapping: IconMapping = [
-  { label: "Home", icon: Home },
   { label: "Kesatuan", icon: University },
   { label: "Manajemen User", icon: IconUserScreen },
   { label: "Penilaian", icon: IconClipboardText },
   { label: "Kesegaran Jasmani", icon: IconTreadmill },
-  { label: "Bak Pistol", icon: IconPistol },
-  { label: "Bak Pan", icon: IconSenapan },
   { label: "Latihan Satuan", icon: IconMilitaryAward },
 ];
 
@@ -47,18 +46,24 @@ export function BreadCrumbs() {
 
   return (
     <Breadcrumb>
-      <BreadcrumbList className="h-8 bg-sidebar gap-2 rounded-md border px-3 text-sm">
+      <BreadcrumbList className="gap-2 text-background">
         {breadcrumbs.map((item, index) => {
           const IconComponent = getIconForLabel(item.label);
 
           return (
-            <Fragment key={item.href}>
+            <Fragment key={index}>
               <BreadcrumbItem>
-                <BreadcrumbPage className="flex items-center gap-1">
-                  {IconComponent && (
-                    <IconComponent className="h-[15px] w-[15px] mb-[2px] mr-[2px]" />
-                  )}
-                  {item.label}
+                <BreadcrumbPage
+                  className={`flex text-background items-center gap-1 ${
+                    index === breadcrumbs.length - 1 ? "font-semibold" : ""
+                  }`}
+                >
+                  <Link href={item.href}>
+                    {IconComponent && (
+                      <IconComponent className="h-[15px] w-[15px] mb-[2px] mr-[2px]" />
+                    )}
+                    {item.label}
+                  </Link>
                 </BreadcrumbPage>
               </BreadcrumbItem>
 

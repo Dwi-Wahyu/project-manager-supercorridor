@@ -24,9 +24,8 @@ import {
   UpdateTaskSchema,
   UpdateTaskSchemaType,
   TaskPrioritySchema,
-  TaskStatusSchema,
 } from "@/validations/schemas/task";
-import { IconChevronLeft, IconLoader, IconPlus } from "@tabler/icons-react";
+import { IconChevronLeft, IconLoader } from "@tabler/icons-react";
 import Link from "next/link";
 import { useState } from "react";
 import { getAllUsers } from "@/app/admin/users/queries";
@@ -37,17 +36,20 @@ import { updateTask } from "../../actions";
 import { getTaskById } from "../../queries";
 import { Textarea } from "@/components/ui/textarea";
 import { Save } from "lucide-react";
+import { getTaskStatus } from "@/app/admin/pengaturan-aplikasi/queries";
 
 export function EditTaskForm({
   user_id,
   allUsers,
   initialData,
   isAdmin,
+  taskStatus,
 }: {
   user_id: string;
   allUsers: Awaited<ReturnType<typeof getAllUsers>>;
   initialData: NonNullable<Awaited<ReturnType<typeof getTaskById>>>;
   isAdmin: boolean;
+  taskStatus: Awaited<ReturnType<typeof getTaskStatus>>;
 }) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -58,7 +60,7 @@ export function EditTaskForm({
       name: initialData.name,
       lop: initialData.lop ?? "",
       port: initialData.port ?? "",
-      status: initialData.status,
+      status_id: initialData.status_id ?? undefined,
       priority: initialData.priority,
       users_in_charge: initialData.users_in_charge.map((user) => ({
         label: user.name,
@@ -79,9 +81,7 @@ export function EditTaskForm({
       setIsLoading(false);
       toast.success("Berhasil menyimpan task");
 
-      setTimeout(() => {
-        router.push(`/admin/projects/${initialData.project_id}/progress/`);
-      }, 2000);
+      router.push(`/admin/projects/${initialData.project_id}/progress/`);
     } else {
       setIsLoading(false);
       toast.error(result.error.message || "Terjadi kesalahan saat input task");
@@ -158,7 +158,7 @@ export function EditTaskForm({
 
               <FormField
                 control={form.control}
-                name="status"
+                name="status_id"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Status</FormLabel>
@@ -172,9 +172,9 @@ export function EditTaskForm({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {TaskStatusSchema.options.map((status) => (
-                          <SelectItem key={status} value={status}>
-                            {status.charAt(0).toUpperCase() + status.slice(1)}
+                        {taskStatus.map((status, idx) => (
+                          <SelectItem key={idx} value={status.id}>
+                            {status.label}
                           </SelectItem>
                         ))}
                       </SelectContent>

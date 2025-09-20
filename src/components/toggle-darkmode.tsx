@@ -24,7 +24,7 @@ export function ToggleDarkMode() {
       size="icon"
       onClick={handleToggle}
       aria-label="Toggle dark mode"
-      className="p-3"
+      className="p-3 rounded-full"
     >
       {isDark ? <MoonIcon /> : <SunIcon />}
     </Button>

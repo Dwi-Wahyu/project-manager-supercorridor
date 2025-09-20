@@ -38,10 +38,12 @@ model Task {
   name String
   lop String?
   port String?
-  status     TaskStatus @default(progress)
   priority   TaskPriority
 
   notes String? @db.Text
+
+  status    TaskStatus?    @relation(onDelete: SetNull, fields: [status_id], references: [id])
+  status_id String?
 
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
@@ -61,7 +63,6 @@ model Task {
 model Project {
   id String @id @default(uuid())
   
-  regional String?
   pop String?
   project_number String?
   name String
@@ -81,6 +82,9 @@ model Project {
   revenue String?
   year String?
 
+  kap String?
+  area String?
+
   done Boolean @default(false)
 
   task Task[]
@@ -89,8 +93,11 @@ model Project {
 
   category ProjectCategory
 
-  client Client? @relation(fields: [client_id], references: [id])
-  client_id String?
+  client Client @relation(fields: [client_id], references: [id])
+  client_id String
+
+  regional Regional @relation(fields: [regional_id], references: [id])
+  regional_id String
 
   @@map("project")
 }
@@ -101,6 +108,25 @@ model Client {
   projects Project[]
 
   @@map("client")
+}
+
+model Regional {
+  id String @id @default(uuid())
+  name String
+  
+  projects Project[]
+
+  @@map("regional")
+}
+
+model TaskStatus {
+  id String @id @default(uuid())
+  label String
+
+  tasks Task[]
+
+  @@map("task_status")
+  
 }
 
 enum ProjectCategory {
@@ -121,13 +147,6 @@ enum TaskPriority {
   high
   medium
   low
-}
-
-enum TaskStatus {
-  done
-  progress
-  stuck
-  survey
 }
 
 enum Role {

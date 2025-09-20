@@ -40,7 +40,8 @@ export function DataTablePagination<TData>({
           Halaman {table.getState().pagination.pageIndex + 1} dari{" "}
           {table.getPageCount()}
         </h1>
-        <div className="flex items-center space-x-2">
+
+        {/* <div className="flex items-center space-x-2">
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
@@ -61,7 +62,7 @@ export function DataTablePagination<TData>({
           <p className="whitespace-nowrap font-medium text-sm">
             Baris per halaman
           </p>
-        </div>
+        </div> */}
 
         <div className="flex items-center space-x-2">
           <Button

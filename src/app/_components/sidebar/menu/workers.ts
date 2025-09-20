@@ -1,6 +1,16 @@
-import { IconClockCog, IconUserScreen } from "@tabler/icons-react";
+import {
+  IconChartDots3,
+  IconLogout2,
+  IconPasswordUser,
+} from "@tabler/icons-react";
 
-import { HouseWifi, LayoutDashboard, Waypoints } from "lucide-react";
+import {
+  HouseWifi,
+  LayoutDashboard,
+  ListTodo,
+  LogOut,
+  UserCircle,
+} from "lucide-react";
 
 export const workersMenu = {
   navMain: [
@@ -9,6 +19,13 @@ export const workersMenu = {
       url: "/admin",
       icon: LayoutDashboard,
     },
+    {
+      title: "Task Anda",
+      url: "/admin/task-anda",
+      icon: ListTodo,
+    },
+  ],
+  navProject: [
     {
       title: "FTTH",
       url: "/admin/projects/ftth",
@@ -27,7 +44,7 @@ export const workersMenu = {
     {
       title: "Backbone",
       url: "/admin/projects/backbone",
-      icon: Waypoints,
+      icon: IconChartDots3,
       child: [
         {
           title: "Summary",
@@ -38,6 +55,24 @@ export const workersMenu = {
           url: "/admin/projects/backbone",
         },
       ],
+    },
+  ],
+  navUser: [],
+  navSetting: [
+    {
+      title: "Profil",
+      url: "/admin/profil",
+      icon: UserCircle,
+    },
+    {
+      title: "Ganti Password",
+      url: "/admin/ganti-password",
+      icon: IconPasswordUser,
+    },
+    {
+      title: "Logout",
+      url: "/admin/logout",
+      icon: IconLogout2,
     },
   ],
 };

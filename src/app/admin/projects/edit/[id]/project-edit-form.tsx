@@ -36,13 +36,16 @@ import { getProjectById } from "../../queries";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Save } from "lucide-react";
 import { NavigationButton } from "@/app/_components/navigation-button";
+import { getRegionals } from "@/app/admin/pengaturan-aplikasi/queries";
 
 export function EditProjectForm({
   allClient,
   initialData,
+  regionals,
 }: {
   allClient: Awaited<ReturnType<typeof getAllClient>>;
   initialData: NonNullable<Awaited<ReturnType<typeof getProjectById>>>;
+  regionals: Awaited<ReturnType<typeof getRegionals>>;
 }) {
   const router = useRouter();
 
@@ -50,7 +53,9 @@ export function EditProjectForm({
     resolver: zodResolver(UpdateProjectSchema),
     defaultValues: {
       id: initialData.id,
-      regional: initialData.regional ?? "",
+      regional_id: initialData.regional_id,
+      kap: initialData.kap ?? "",
+      area: initialData.area ?? "",
       pop: initialData.pop ?? "",
       project_number: initialData.project_number ?? "",
       name: initialData.name,
@@ -153,10 +158,52 @@ export function EditProjectForm({
                 />
                 <FormField
                   control={form.control}
-                  name="regional"
+                  name="regional_id"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Regional</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={initialData.regional_id}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="w-full">
+                              <SelectValue />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {regionals.map((regional, idx) => (
+                              <SelectItem key={idx} value={regional.id}>
+                                {regional.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="kap"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>KAP</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="area"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Area</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -368,7 +415,7 @@ export function EditProjectForm({
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
-                          defaultValue={initialData.client_id ?? ""}
+                          defaultValue={initialData.client_id}
                         >
                           <FormControl>
                             <SelectTrigger className="w-full">
@@ -395,7 +442,23 @@ export function EditProjectForm({
                     <FormItem>
                       <FormLabel>Tahun</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={initialData.year ?? ""}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="w-full">
+                              <SelectValue />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {["2024", "2025", "2026"].map((year, idx) => (
+                              <SelectItem key={idx} value={year}>
+                                {year}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -408,10 +471,14 @@ export function EditProjectForm({
                     <FormItem>
                       <FormLabel>Project telah Selesai</FormLabel>
                       <FormControl>
-                        <Checkbox
-                          onCheckedChange={field.onChange}
-                          defaultChecked={initialData.done}
-                        />
+                        <FormLabel htmlFor="project_selesai_checkbox">
+                          <Checkbox
+                            id="project_selesai_checkbox"
+                            onCheckedChange={field.onChange}
+                            defaultChecked={initialData.done}
+                          />
+                          Tandai Project Ini Telah Selesai
+                        </FormLabel>
                       </FormControl>
                       <FormMessage />
                     </FormItem>

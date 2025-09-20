@@ -91,7 +91,6 @@ export const TabelWorkersColumns: ColumnDef<WorkersColumnType>[] = [
             confirmButtonText={isDeleting ? "Menghapus..." : "Hapus"}
             cancelButtonText="Batal"
             isLoading={isDeleting}
-            confirmButtonVariant="destructive"
           />
         </div>
       );

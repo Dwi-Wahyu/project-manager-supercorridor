@@ -31,13 +31,9 @@ export default async function KehadiranPage(props: IndexPageProps) {
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center gap-2 mb-5">
-          <IconHeartHandshake className="w-11 h-11" />
-
-          <div>
-            <PageTitle title="Client" />
-            <PageDescription text="Daftar Client Kerjasama" />
-          </div>
+        <div className="text-center mb-5">
+          <PageTitle title="Client" />
+          <PageDescription text="Daftar Client" />
         </div>
         <Suspense fallback={<DataTableSkeleton columnCount={3} />}>
           <TabelClient promises={promises} />

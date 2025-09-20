@@ -1,7 +1,6 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/app/_components/sidebar/app-sidebar";
-import { BreadCrumbs } from "@/components/breadcrumb";
-import TopbarAvatar from "@/components/topbar-avatar";
+import { AdminTopbar } from "./admin-topbar";
 
 export default function ClientAdminLayout({
   children,
@@ -18,18 +17,12 @@ export default function ClientAdminLayout({
       }
     >
       <AppSidebar />
-      <main className=" w-full">
-        <div className="flex p-3 px-4 border-b-[1px] border-b-sidebar justify-between items-center w-full">
-          <div className="flex gap-1 items-center">
-            <SidebarTrigger className="block md:hidden" />
+      <main className="w-full">
+        <div className="p-5 pl-4">
+          <AdminTopbar />
 
-            <BreadCrumbs />
-          </div>
-
-          <TopbarAvatar />
+          {children}
         </div>
-
-        <div className="p-4">{children}</div>
       </main>
     </SidebarProvider>
   );

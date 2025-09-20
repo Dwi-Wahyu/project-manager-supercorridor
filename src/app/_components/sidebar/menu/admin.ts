@@ -1,11 +1,12 @@
 import {
   IconBuildingWarehouse,
+  IconChartDots3,
   IconHeartHandshake,
-  IconUserScreen,
-  IconUsersGroup,
+  IconUserCog,
+  IconUserShield,
 } from "@tabler/icons-react";
 
-import { Contact, HouseWifi, LayoutDashboard, Waypoints } from "lucide-react";
+import { HouseWifi, LayoutDashboard, Settings } from "lucide-react";
 
 export const adminMenu = {
   navMain: [
@@ -14,6 +15,18 @@ export const adminMenu = {
       url: "/admin",
       icon: LayoutDashboard,
     },
+    {
+      title: "Client",
+      url: "/admin/clients",
+      icon: IconHeartHandshake,
+    },
+    {
+      title: "Material",
+      url: "/admin/materials",
+      icon: IconBuildingWarehouse,
+    },
+  ],
+  navProject: [
     {
       title: "FTTH",
       url: "/admin/projects/ftth",
@@ -32,7 +45,7 @@ export const adminMenu = {
     {
       title: "Backbone",
       url: "/admin/projects/backbone",
-      icon: Waypoints,
+      icon: IconChartDots3,
       child: [
         {
           title: "Summary",
@@ -44,30 +57,24 @@ export const adminMenu = {
         },
       ],
     },
+  ],
+  navUser: [
     {
-      title: "Client",
-      url: "/admin/clients",
-      icon: IconHeartHandshake,
+      title: "Admin",
+      url: "/admin/users/admin",
+      icon: IconUserShield,
     },
     {
-      title: "Material",
-      url: "/admin/materials",
-      icon: IconBuildingWarehouse,
+      title: "Pekerja Lapangan",
+      url: "/admin/users/pekerja-lapangan",
+      icon: IconUserCog,
     },
+  ],
+  navSetting: [
     {
-      title: "Users",
-      url: "/admin/users",
-      icon: IconUsersGroup,
-      child: [
-        {
-          title: "Admin",
-          url: "/admin/users/admin",
-        },
-        {
-          title: "Pekerja Lapangan",
-          url: "/admin/users/pekerja-lapangan",
-        },
-      ],
+      title: "Pengaturan Aplikasi",
+      url: "/admin/pengaturan-aplikasi",
+      icon: Settings,
     },
   ],
 };

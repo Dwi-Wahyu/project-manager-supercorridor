@@ -36,7 +36,7 @@ export function generateBreadcrumbs(
 
     // Deteksi segmen khusus seperti create, edit, atau ID
     if (segment === "create") {
-      label = `Tambah`;
+      label = `Input`;
     } else if (segment === "edit") {
       label = `Edit`;
     } else if (!isNaN(Number(segment))) {

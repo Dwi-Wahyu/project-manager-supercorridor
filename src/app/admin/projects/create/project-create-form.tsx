@@ -33,20 +33,25 @@ import {
 } from "@/components/ui/select";
 import { getAllClient } from "../../clients/queries";
 import { ProjectCategory } from "@/app/generated/prisma";
+import { getRegionals } from "../../pengaturan-aplikasi/queries";
 
 export function CreateProjectForm({
   allClient,
   category,
+  regionals,
 }: {
   allClient: Awaited<ReturnType<typeof getAllClient>>;
   category: ProjectCategory;
+  regionals: Awaited<ReturnType<typeof getRegionals>>;
 }) {
   const router = useRouter();
 
   const form = useForm<InputProjectSchemaType>({
     resolver: zodResolver(InputProjectSchema),
     defaultValues: {
-      regional: "",
+      regional_id: "",
+      kap: "",
+      area: "",
       pop: "",
       project_number: "",
       name: "",
@@ -172,10 +177,49 @@ export function CreateProjectForm({
                 />
                 <FormField
                   control={form.control}
-                  name="regional"
+                  name="regional_id"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Regional</FormLabel>
+                      <FormControl>
+                        <Select onValueChange={field.onChange}>
+                          <FormControl>
+                            <SelectTrigger className="w-full">
+                              <SelectValue />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {regionals.map((regional, idx) => (
+                              <SelectItem key={idx} value={regional.id}>
+                                {regional.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="kap"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>KAP</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="area"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Area</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -419,8 +463,8 @@ export function CreateProjectForm({
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {allClient.map((client) => (
-                              <SelectItem key={client.id} value={client.id}>
+                            {allClient.map((client, idx) => (
+                              <SelectItem key={idx} value={client.id}>
                                 {client.name}
                               </SelectItem>
                             ))}
@@ -438,7 +482,20 @@ export function CreateProjectForm({
                     <FormItem>
                       <FormLabel>Tahun</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Select onValueChange={field.onChange}>
+                          <FormControl>
+                            <SelectTrigger className="w-full">
+                              <SelectValue />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {["2024", "2025", "2026"].map((year, idx) => (
+                              <SelectItem key={idx} value={year}>
+                                {year}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>

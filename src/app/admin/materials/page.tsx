@@ -36,8 +36,8 @@ export default async function KehadiranPage(props: IndexPageProps) {
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center gap-2 mb-5">
-          <IconBuildingWarehouse className="w-11 h-11" />
+        <div className="flex items-center justify-center text-center gap-2 mb-5">
+          {/* <IconBuildingWarehouse className="w-11 h-11" /> */}
 
           <div>
             <PageTitle title="Material" />

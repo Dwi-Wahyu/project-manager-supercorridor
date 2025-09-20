@@ -15,7 +15,7 @@ import { EditMaterialDialog } from "./material-edit-dialog";
 export const TabelMaterialColumns: ColumnDef<MaterialColumnType>[] = [
   {
     accessorKey: "name",
-    header: "Mitra",
+    header: "Nama Material",
   },
   {
     accessorKey: "quantity",
@@ -72,7 +72,6 @@ export const TabelMaterialColumns: ColumnDef<MaterialColumnType>[] = [
             confirmButtonText={isDeleting ? "Menghapus..." : "Hapus"}
             cancelButtonText="Batal"
             isLoading={isDeleting}
-            confirmButtonVariant="destructive"
           />
         </div>
       );

@@ -91,7 +91,6 @@ export const TabelAdminColumns: ColumnDef<AdminColumnType>[] = [
             confirmButtonText={isDeleting ? "Menghapus..." : "Hapus"}
             cancelButtonText="Batal"
             isLoading={isDeleting}
-            confirmButtonVariant="destructive"
           />
         </div>
       );

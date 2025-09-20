@@ -18,12 +18,12 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../../../components/ui/collapsible";
-import { Button } from "../../../components/ui/button";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 
-export function NavMain({
+export function NavMenu({
   items,
+  groupLabel,
 }: {
   items: {
     title: string;
@@ -34,13 +34,14 @@ export function NavMain({
       url: string;
     }[];
   }[];
+  groupLabel: string;
 }) {
   const { linkActive, setLinkActive } = useSidebar();
 
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col">
-        <SidebarGroupLabel>MENU UTAMA</SidebarGroupLabel>
+        <SidebarGroupLabel>{groupLabel}</SidebarGroupLabel>
 
         <SidebarMenu>
           {items.map((item) => {

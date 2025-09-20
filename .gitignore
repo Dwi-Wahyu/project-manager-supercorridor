@@ -10,6 +10,8 @@
 
 /certificates/*
 
+/data/*
+
 users-seeded-in-server.md
 
 # testing

@@ -12,27 +12,12 @@ import { revalidatePath } from "next/cache";
 export async function createProject(
   payload: InputProjectSchemaType
 ): Promise<ServerActionReturn<void>> {
-  const { client_id, ...data } = payload;
+  const { ...data } = payload;
 
   try {
-    if (client_id === "" || !client_id) {
-      await prisma.project.create({
-        data: {
-          ...data,
-        },
-      });
-
-      return successResponse(undefined, "Berhasil input project");
-    }
-
     await prisma.project.create({
       data: {
         ...data,
-        client: {
-          connect: {
-            id: client_id,
-          },
-        },
       },
     });
 
@@ -59,33 +44,13 @@ export async function updateProject(
       return errorResponse("Project tidak ditemukan", "SERVER_ERROR");
     }
 
-    if (client_id === "" || !client_id) {
-      await prisma.project.update({
-        where: {
-          id,
-        },
-        data: {
-          ...data,
-        },
-      });
-
-      return successResponse(undefined, "Berhasil update project");
-    }
-
     await prisma.project.update({
       where: {
         id,
       },
       data: {
         ...data,
-        client: {
-          disconnect: {
-            id: prevData.id,
-          },
-          connect: {
-            id: client_id,
-          },
-        },
+        client_id,
       },
     });
 

@@ -12,7 +12,7 @@ const figtree = Figtree({
 });
 
 export const metadata: Metadata = {
-  title: "Project Manager",
+  title: "PROJECT MANAGEMENT",
   description: "PT Trans Indonesia Superkoridor",
   creator: "PT Skytel Indo",
 };

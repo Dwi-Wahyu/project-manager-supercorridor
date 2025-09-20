@@ -21,6 +21,7 @@ import UnauthorizedPage from "@/app/_components/unauthorized-page";
 import { getClientData } from "./queries";
 import { TabelClientColumns } from "./tabel-client-columns";
 import { InputClientDialog } from "./client-input-dialog";
+import { DataTableLimitSelect } from "@/components/data-table/data-table-limit-select";
 
 type TableType = Awaited<ReturnType<typeof getClientData>>;
 
@@ -64,17 +65,14 @@ export function TabelClient({ promises }: { promises: TableType }) {
       <DataTable table={table}>
         <DataTableAdvancedToolbar table={table}>
           <div className="flex items-center justify-between w-full flex-col sm:flex-row">
-            <div className="flex gap-2 items-center ">
-              <Input
-                placeholder="Cari Nama . . ."
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+            <Input
+              placeholder="Cari Nama . . ."
+              value={name}
+              className="w-fit"
+              onChange={(e) => setName(e.target.value)}
+            />
 
-              <Button variant={"outline"} onClick={handleClear}>
-                <FunnelX />
-              </Button>
-            </div>
+            <DataTableLimitSelect table={table} />
 
             <InputClientDialog />
           </div>

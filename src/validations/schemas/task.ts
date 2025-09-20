@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-export const TaskStatusSchema = z.enum(["progress", "stuck", "done", "survey"]);
 export const TaskPrioritySchema = z.enum(["low", "medium", "high", "critical"]);
 
 export const InputTaskSchema = z.object({
@@ -9,7 +8,7 @@ export const InputTaskSchema = z.object({
   lop: z.string().optional(),
   port: z.string().optional(),
   notes: z.string().optional(),
-  status: TaskStatusSchema.default("progress").optional(),
+  status_id: z.string().optional(),
   priority: TaskPrioritySchema,
   created_by_user_id: z.string().optional(),
   users_in_charge: z.array(z.object({ label: z.string(), value: z.string() })),
@@ -23,10 +22,19 @@ export const UpdateTaskSchema = z.object({
   lop: z.string().optional(),
   port: z.string().optional(),
   notes: z.string().optional(),
-  status: TaskStatusSchema.default("progress").optional(),
+  status_id: z.string().optional(),
   priority: TaskPrioritySchema,
   last_updated_by_user_id: z.string().optional(),
   users_in_charge: z.array(z.object({ label: z.string(), value: z.string() })),
 });
 
 export type UpdateTaskSchemaType = z.infer<typeof UpdateTaskSchema>;
+
+export const UpsertTaskStatusSchema = z.object({
+  id: z.string().optional(),
+  label: z.string().min(1, {
+    message: "Tolong isi label.",
+  }),
+});
+
+export type UpsertTaskStatusSchemaType = z.infer<typeof UpsertTaskStatusSchema>;

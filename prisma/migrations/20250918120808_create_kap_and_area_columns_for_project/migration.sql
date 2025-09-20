@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `project` ADD COLUMN `area` VARCHAR(191) NULL,
+    ADD COLUMN `kap` VARCHAR(191) NULL;

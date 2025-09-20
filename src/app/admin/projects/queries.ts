@@ -4,6 +4,9 @@ import { Prisma, ProjectCategory } from "@/app/generated/prisma";
 import { auth } from "@/config/auth";
 import { prisma } from "@/lib/prisma";
 import { ProjectSearchParamsType } from "@/validations/search-params/project-search-params";
+import { getRegionals } from "../pengaturan-aplikasi/queries";
+import { ChartConfig } from "@/components/ui/chart";
+import { SummarySearchParamsType } from "@/validations/search-params/summary-search-params";
 
 export async function getProjectData(input: ProjectSearchParamsType) {
   type WhereClause = Prisma.ProjectWhereInput;
@@ -45,6 +48,11 @@ export async function getProjectData(input: ProjectSearchParamsType) {
           id: true,
         },
       },
+      regional: {
+        select: {
+          name: true,
+        },
+      },
     },
   });
 
@@ -58,83 +66,13 @@ export async function getProjectById(id: string) {
     where: { id },
     include: {
       client: true,
+      regional: {
+        select: {
+          name: true,
+        },
+      },
     },
   });
-}
-
-export async function getProjectGroupByYear() {
-  return await prisma.project.groupBy({
-    by: "year",
-  });
-}
-
-export async function getProjectGroupByStatus() {
-  return await prisma.project.groupBy({
-    by: "status",
-  });
-}
-
-export async function getOnGoingProjectGroupByRegional() {
-  const regional = await prisma.project.groupBy({
-    by: "regional",
-  });
-
-  console.log(regional);
-}
-
-export async function getProjectsSummary(category: ProjectCategory) {
-  const total = await prisma.project.findMany({
-    where: {
-      category,
-    },
-    select: {
-      home_port: true,
-      home_connected: true,
-    },
-  });
-
-  const onGoing = await prisma.project.findMany({
-    where: {
-      category,
-      done: false,
-    },
-    select: {
-      home_port: true,
-      home_connected: true,
-    },
-  });
-
-  const done = await prisma.project.findMany({
-    where: {
-      category,
-      done: true,
-    },
-    select: {
-      home_port: true,
-      home_connected: true,
-    },
-  });
-
-  return {
-    total: {
-      sum: total.length,
-      port: total.reduce((accumulator, currentProject) => {
-        return accumulator + (currentProject.home_port || 0);
-      }, 0),
-    },
-    onGoing: {
-      sum: onGoing.length,
-      port: onGoing.reduce((accumulator, currentProject) => {
-        return accumulator + (currentProject.home_port || 0);
-      }, 0),
-    },
-    done: {
-      sum: done.length,
-      port: done.reduce((accumulator, currentProject) => {
-        return accumulator + (currentProject.home_port || 0);
-      }, 0),
-    },
-  };
 }
 
 export async function getProjectSum() {

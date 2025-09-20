@@ -17,7 +17,9 @@ export async function getProjectProgressData(
   }
 
   if (input.status) {
-    whereClause["status"] = input.status as TaskStatus;
+    whereClause["status"] = {
+      id: input.status,
+    };
   }
 
   if (input.priority) {
@@ -35,6 +37,13 @@ export async function getProjectProgressData(
     orderBy: {
       created_at: "desc",
     },
+    include: {
+      status: {
+        select: {
+          label: true,
+        },
+      },
+    },
   });
 
   const pageCount = Math.ceil(filtered / input.perPage);
@@ -43,35 +52,22 @@ export async function getProjectProgressData(
 }
 
 export async function getProjectStatusSummary(project_id: string) {
-  const done = await prisma.task.count({
-    where: {
-      project_id,
-      status: "done",
+  const statusSummary = await prisma.taskStatus.findMany({
+    select: {
+      _count: {
+        select: {
+          tasks: {
+            where: {
+              project_id,
+            },
+          },
+        },
+      },
+      label: true,
     },
   });
 
-  const progress = await prisma.task.count({
-    where: {
-      project_id,
-      status: "progress",
-    },
-  });
-
-  const stuck = await prisma.task.count({
-    where: {
-      project_id,
-      status: "stuck",
-    },
-  });
-
-  const survey = await prisma.task.count({
-    where: {
-      project_id,
-      status: "survey",
-    },
-  });
-
-  return { done, progress, stuck, survey };
+  return statusSummary;
 }
 
 export async function getTaskById(id: number) {
@@ -80,6 +76,11 @@ export async function getTaskById(id: number) {
       id,
     },
     include: {
+      status: {
+        select: {
+          label: true,
+        },
+      },
       users_in_charge: {
         select: {
           id: true,

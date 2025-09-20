@@ -34,7 +34,7 @@ export function ConfirmationDialog({
   isLoading = false,
   confirmButtonText = "Konfirmasi",
   cancelButtonText = "Batal",
-  confirmButtonVariant = "secondary",
+  confirmButtonVariant = "destructive",
 }: ConfirmationDialogProps) {
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
@@ -42,7 +42,7 @@ export function ConfirmationDialog({
         <AlertDialogHeader className="flex flex-col items-center text-center">
           <AlertCircle className="h-8 w-8 text-muted-foreground" />{" "}
           {/* Ikon peringatan */}
-          <AlertDialogTitle className="text-xl font-bold mt-2">
+          <AlertDialogTitle className="text-xl text-center font-bold mt-2">
             {title}
           </AlertDialogTitle>
           <AlertDialogDescription className="text-base text-center">
@@ -58,7 +58,7 @@ export function ConfirmationDialog({
             onClick={onConfirm}
             disabled={isLoading}
             variant={confirmButtonVariant}
-            className="w-full sm:w-auto rounded-full mb-2 sm:mb-0"
+            className="w-full sm:w-auto mb-2 sm:mb-0"
           >
             {isLoading ? (
               <IconLoader className="animate-spin" />

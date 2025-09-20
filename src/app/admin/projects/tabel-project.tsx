@@ -20,6 +20,7 @@ import { useSession } from "next-auth/react";
 import UnauthorizedPage from "@/app/_components/unauthorized-page";
 import { getProjectData } from "./queries";
 import { TabelProjectColumns } from "./tabel-project-columns";
+import { DataTableLimitSelect } from "@/components/data-table/data-table-limit-select";
 
 type TableType = Awaited<ReturnType<typeof getProjectData>>;
 
@@ -34,7 +35,7 @@ export function TabelProject({
 }) {
   const { data, filtered, pageCount } = promises;
 
-  const [nama, setNama] = useQueryState("nama", {
+  const [name, setName] = useQueryState("name", {
     shallow: false,
     clearOnDefault: true,
     defaultValue: "",
@@ -54,27 +55,18 @@ export function TabelProject({
     },
   });
 
-  function handleClear() {
-    setNama("");
-  }
-
-  const session = useSession();
-
   return (
     <DataTable table={table}>
       <DataTableAdvancedToolbar table={table}>
         <div className="flex items-center justify-between w-full flex-col sm:flex-row">
-          <div className="flex gap-2 items-center ">
-            <Input
-              placeholder="Cari Nama . . ."
-              value={nama}
-              onChange={(e) => setNama(e.target.value)}
-            />
+          <Input
+            placeholder="Cari Nama . . ."
+            className="w-fit"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
 
-            <Button variant={"outline"} onClick={handleClear}>
-              <FunnelX />
-            </Button>
-          </div>
+          <DataTableLimitSelect table={table} />
 
           {isAdmin && (
             <Button asChild>

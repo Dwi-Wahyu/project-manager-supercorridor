@@ -24,10 +24,8 @@ import {
   InputTaskSchema,
   InputTaskSchemaType,
   TaskPrioritySchema,
-  TaskStatusSchema,
 } from "@/validations/schemas/task";
 import { IconChevronLeft, IconLoader, IconPlus } from "@tabler/icons-react";
-import Link from "next/link";
 import { useState } from "react";
 import { getAllUsers } from "@/app/admin/users/queries";
 import MultipleSelector from "@/components/multiple-select";
@@ -35,15 +33,19 @@ import { useRouter } from "nextjs-toploader/app";
 import { createTask } from "../actions";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
+import { NavigationButton } from "@/app/_components/navigation-button";
+import { getTaskStatus } from "@/app/admin/pengaturan-aplikasi/queries";
 
 export function CreateTaskForm({
   project_id,
   user_id,
   allUsers,
+  taskStatus,
 }: {
   project_id: string;
   user_id: string;
   allUsers: Awaited<ReturnType<typeof getAllUsers>>;
+  taskStatus: Awaited<ReturnType<typeof getTaskStatus>>;
 }) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -54,7 +56,7 @@ export function CreateTaskForm({
       name: "",
       lop: "",
       port: "",
-      status: "progress",
+      status_id: undefined,
       priority: "low",
       users_in_charge: [],
       created_by_user_id: user_id,
@@ -72,9 +74,7 @@ export function CreateTaskForm({
       setIsLoading(false);
       toast.success("Berhasil input task");
 
-      setTimeout(() => {
-        router.push(`/admin/projects/${project_id}/progress/`);
-      }, 2000);
+      router.push(`/admin/projects/${project_id}/progress/`);
     } else {
       setIsLoading(false);
       toast.error(result.error.message || "Terjadi kesalahan saat input task");
@@ -89,15 +89,6 @@ export function CreateTaskForm({
   return (
     <div className="w-full flex justify-center">
       <Card className="w-full relative max-w-xl shadow-none">
-        <Button
-          className="top-6 hidden md:inline-flex absolute -left-14"
-          variant={"secondary"}
-          asChild
-        >
-          <Link href={`/admin/projects/${project_id}/progress`}>
-            <IconChevronLeft />
-          </Link>
-        </Button>
         <CardHeader>
           <CardTitle>Input Task Baru</CardTitle>
         </CardHeader>
@@ -151,7 +142,7 @@ export function CreateTaskForm({
 
               <FormField
                 control={form.control}
-                name="status"
+                name="status_id"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Status</FormLabel>
@@ -165,9 +156,9 @@ export function CreateTaskForm({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {TaskStatusSchema.options.map((status) => (
-                          <SelectItem key={status} value={status}>
-                            {status.charAt(0).toUpperCase() + status.slice(1)}
+                        {taskStatus.map((status, idx) => (
+                          <SelectItem key={idx} value={status.id}>
+                            {status.label}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -236,15 +227,22 @@ export function CreateTaskForm({
               />
 
               <div className="flex justify-end gap-2">
+                <NavigationButton
+                  url={`/admin/projects/${project_id}/progress`}
+                >
+                  <IconChevronLeft />
+                  Kembali
+                </NavigationButton>
+
                 <Button type="submit" disabled={isLoading}>
                   {isLoading ? (
                     <>
-                      <IconLoader className="animate-spin mr-2" />
+                      <IconLoader className="animate-spin " />
                       Loading
                     </>
                   ) : (
                     <>
-                      <IconPlus className="mr-2" />
+                      <IconPlus className="" />
                       Submit
                     </>
                   )}

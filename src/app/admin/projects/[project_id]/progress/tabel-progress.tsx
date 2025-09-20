@@ -13,15 +13,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { FunnelX } from "lucide-react";
-import Link from "next/link";
-import { IconPlus } from "@tabler/icons-react";
+import { FilterX, FunnelX } from "lucide-react";
 import { getProjectProgressData } from "./queries";
 import { TabelProjectProgressColumns } from "./tabel-progress-columns";
-import {
-  TaskPrioritySchema,
-  TaskStatusSchema,
-} from "@/validations/schemas/task";
+import { TaskPrioritySchema } from "@/validations/schemas/task";
+import { DataTableLimitSelect } from "@/components/data-table/data-table-limit-select";
+import { getTaskStatus } from "@/app/admin/pengaturan-aplikasi/queries";
 
 type TableType = Awaited<ReturnType<typeof getProjectProgressData>>;
 
@@ -29,10 +26,10 @@ export type ProjectProgressColumnType = TableType["data"][number];
 
 export function TabelProjectProgress({
   promises,
-  project_id,
+  taskStatus,
 }: {
   promises: TableType;
-  project_id: string;
+  taskStatus: Awaited<ReturnType<typeof getTaskStatus>>;
 }) {
   const { data, filtered, pageCount } = promises;
 
@@ -81,23 +78,19 @@ export function TabelProjectProgress({
           <div className="flex items-center justify-between w-full flex-col sm:flex-row">
             <div className="flex gap-2 items-center">
               <Input
-                placeholder="Cari berdasarkan nama"
+                placeholder="Cari nama"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
 
-              <Select
-                onValueChange={setStatus}
-                required={false}
-                defaultValue={status}
-              >
+              <Select onValueChange={setStatus} required={false} value={status}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Filter Status" />
                 </SelectTrigger>
                 <SelectContent>
-                  {TaskStatusSchema.options.map((status, idx) => (
-                    <SelectItem value={status} key={idx}>
-                      {status}
+                  {taskStatus.map((status, idx) => (
+                    <SelectItem value={status.id} key={idx}>
+                      {status.label}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -106,7 +99,7 @@ export function TabelProjectProgress({
               <Select
                 onValueChange={setPriority}
                 required={false}
-                defaultValue={priority}
+                value={priority}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Filter Prioritas" />
@@ -120,10 +113,12 @@ export function TabelProjectProgress({
                 </SelectContent>
               </Select>
 
-              <Button variant={"outline"} onClick={handleClear}>
-                <FunnelX />
+              <Button onClick={handleClear}>
+                <FilterX />
               </Button>
             </div>
+
+            <DataTableLimitSelect table={table} />
           </div>
         </DataTableAdvancedToolbar>
       </DataTable>

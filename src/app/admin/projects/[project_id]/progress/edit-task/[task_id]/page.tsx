@@ -4,6 +4,7 @@ import { EditTaskForm } from "./task-edit-form";
 import { getAllUsers } from "@/app/admin/users/queries";
 import { auth } from "@/config/auth";
 import UnauthorizedPage from "@/app/_components/unauthorized-page";
+import { getTaskStatus } from "@/app/admin/pengaturan-aplikasi/queries";
 
 export default async function EditTaskPage({
   params,
@@ -24,13 +25,13 @@ export default async function EditTaskPage({
 
   const initialData = await getTaskById(parseInt(task_id));
 
-  const allUsers = await getAllUsers();
-
   if (!initialData) {
     return <NotFoundResource />;
   }
 
-  console.log(initialData.users_in_charge);
+  const allUsers = await getAllUsers();
+
+  const taskStatus = await getTaskStatus();
 
   return (
     <EditTaskForm
@@ -38,6 +39,7 @@ export default async function EditTaskPage({
       initialData={initialData}
       user_id={session.user.id}
       isAdmin={session.user.role === "admin"}
+      taskStatus={taskStatus}
     />
   );
 }

@@ -15,7 +15,7 @@ import { EditClientDialog } from "./client-edit-dialog";
 export const TabelClientColumns: ColumnDef<ClientColumnType>[] = [
   {
     accessorKey: "name",
-    header: "Mitra",
+    header: "Nama Client",
   },
   {
     header: "Jumlah Project",
@@ -74,7 +74,6 @@ export const TabelClientColumns: ColumnDef<ClientColumnType>[] = [
             confirmButtonText={isDeleting ? "Menghapus..." : "Hapus"}
             cancelButtonText="Batal"
             isLoading={isDeleting}
-            confirmButtonVariant="destructive"
           />
         </div>
       );

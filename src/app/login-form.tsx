@@ -21,14 +21,9 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "nextjs-toploader/app";
 import { useState } from "react";
 import { PasswordInput } from "@/components/password-input";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
 
-export default function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+export default function LoginForm() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -68,85 +63,66 @@ export default function LoginForm({
   };
 
   return (
-    <div
-      className={
-        "flex flex-col items-center justify-center w-full h-full bg-black/50"
-      }
-      {...props}
-    >
-      <Card className="min-w-sm">
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="flex flex-col gap-6">
-                <div className="flex flex-col items-center text-center">
-                  <h1 className="text-2xl font-bold">Selamat Datang</h1>
-                  <p className="text-muted-foreground text-balance">
-                    Project Manager
-                  </p>
-                </div>
-                <FormField
-                  control={form.control}
-                  name="username"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Username</FormLabel>
-                      <FormControl>
-                        <Input
-                          className="px-4 py-2"
-                          placeholder="Username Anda"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Kata Sandi</FormLabel>
-                      <FormControl>
-                        <PasswordInput
-                          placeholder="Kata Sandi Anda"
-                          className="px-4 py-2"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col items-center text-center">
+            <h1 className="text-2xl font-bold">Selamat Datang</h1>
+            <p className="text-muted-foreground text-balance">
+              Masukkan Username Dan Password
+            </p>
+          </div>
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input
+                    className="px-4 py-2"
+                    placeholder="Username Anda"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <PasswordInput
+                    placeholder="Password Anda"
+                    className="px-4 py-2"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-                <div className="flex flex-col gap-2 items-center">
-                  <Button
-                    disabled={loading}
-                    type="submit"
-                    className="from-primary via-primary/50 to-primary py-5 md:py-2 text-md w-full bg-transparent bg-gradient-to-r [background-size:200%_auto] hover:bg-transparent hover:bg-[99%_center]"
-                  >
-                    {form.formState.isSubmitting ? "Loading..." : "Login"}
-                  </Button>
+          <div className="flex flex-col gap-2 items-center">
+            <Button
+              disabled={loading}
+              type="submit"
+              className="w-full bg-gradient-to-b from-primary to-primary/70"
+              size={"lg"}
+            >
+              {form.formState.isSubmitting ? "Loading..." : "Login"}
+            </Button>
 
-                  <Button
-                    type="button"
-                    asChild
-                    variant={"link"}
-                    className="w-full"
-                  >
-                    <Link href={"/lupa-katasandi"}>Lupa Kata Sandi</Link>
-                  </Button>
-                </div>
-
-                <h1 className="text-center hidden md:block text-muted-foreground text-xs">
-                  Copyright @ PT SkytelIndo 2025
-                </h1>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-    </div>
+            <Button type="button" asChild variant={"link"} className="w-full">
+              <Link href={"/lupa-password"}>Lupa Password</Link>
+            </Button>
+          </div>
+        </div>
+      </form>
+    </Form>
   );
 }
